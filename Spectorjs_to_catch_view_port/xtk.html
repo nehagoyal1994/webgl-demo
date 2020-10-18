@@ -26,11 +26,10 @@
 	}
 
 	</style>
-	<script type="text/javascript" >		
+	<script type="text/javascript" >
 
 		var r,c;
 		window.onload =function(){
-			
 
 			//
 			//  XTK
@@ -46,43 +45,43 @@
 		 	r.render();
 
 	        
-			//
-			// THREE.JS
-			//
-			r2 = document.getElementById('r2'); // get the div
+	        //
+	        // THREE.JS
+	        //
+	        r2 = document.getElementById('r2'); // get the div
 
-			scene = new THREE.Scene();
+	        scene = new THREE.Scene();
 
-			camera = new THREE.PerspectiveCamera( 75, r2.clientWidth / r2.clientHeight, 1, 10000 );    //use container to set height and width
-			camera.position.set( 0, 0, 100 );
+	        camera = new THREE.PerspectiveCamera( 75, r2.clientWidth / r2.clientHeight, 1, 10000 );    //use container to set height and width
+	        camera.position.set( 0, 0, 100 );
 
-			renderer = new THREE.WebGLRenderer({antialias: true});
-			renderer.setSize( r2.clientWidth, r2.clientHeight );
-			r2.appendChild( renderer.domElement );    //apend renderer child to the container
+	        renderer = new THREE.WebGLRenderer({antialias: true});
+	        renderer.setSize( r2.clientWidth, r2.clientHeight );
+	        r2.appendChild( renderer.domElement );    //apend renderer child to the container
 
-			ambientLight = new THREE.AmbientLight( 0x404040 );
-			scene.add( ambientLight );
+	        ambientLight = new THREE.AmbientLight( 0x404040 );
+	        scene.add( ambientLight );
 
-			light = new THREE.DirectionalLight( 0xffffff, 5.0 );
-			light.position.set( 10, 100, 10 );
-			scene.add( light );
+	        light = new THREE.DirectionalLight( 0xffffff, 5.0 );
+	        light.position.set( 10, 100, 10 );
+	        scene.add( light );
 
-			geometry = new THREE.BoxBufferGeometry( 20, 20, 20 );
-			material = new THREE.MeshStandardMaterial({ color: 0xffffff });
-			cube = new THREE.Mesh( geometry, material );
-			//cube = new THREE.Mesh( geometry, material );
+	        geometry = new THREE.BoxBufferGeometry( 20, 20, 20 );
+	        material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+	        cube = new THREE.Mesh( geometry, material );
+	        //cube = new THREE.Mesh( geometry, material );
+	        
+	        scene.add( cube );
 
-			scene.add( cube );
+	        controls = new THREE.TrackballControls( camera, r2 );    //pass control to container
 
-			controls = new THREE.TrackballControls( camera, r2 );    //pass control to container
+	        animate();
 
-			animate();
+	        //renderer.domElement
 
-			//renderer.domElement
-
-			//
-			// END OF THREE.JS
-			//
+	        //
+	        // END OF THREE.JS
+	        //
 
 
 
@@ -127,8 +126,7 @@
 		 		}
 
 		 	}
-			
-		 	
+
 		 	var gui = new dat.GUI();
 		 	var cubeGui = gui.addFolder('CUBE');
 		 	cubeGui.add(c, 'visible');
@@ -153,24 +151,22 @@
 
 		 	var both = gui.addFolder('Both Cubes');
 		 	both.add(controller, 'add new');
-			both.add(controller, 'rotateX');
-			both.add(controller, 'rotateY');
-			both.add(controller, 'rotateZ');
-			both.open();
+		    both.add(controller, 'rotateX');
+		    both.add(controller, 'rotateY');
+		    both.add(controller, 'rotateZ');
+		    both.open();
 
 
 		};
 
 		function animate() {
-			
-			
 
-			requestAnimationFrame( animate );
+        requestAnimationFrame( animate );
 
-			// do some slurping
+        // do some slurping
 
-			controls.update();
-			renderer.render( scene, camera );
+        controls.update();
+        renderer.render( scene, camera );
 
       };
 
