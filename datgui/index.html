@@ -131,10 +131,7 @@
 		 	var cubeGui = gui.addFolder('CUBE');
 		 	cubeGui.add(c, 'visible');
 		 	cubeGui.add(c, 'opacity', 0, 1);
-		 	cubeGui.addColor(c, 'color');
-		 	cubeGui.add(c, 'lengthX', 0 ,100).onChange( function() {
-		 		c.modified();   //modify event of XTK'cube  since
-		 	});
+		 	cubeGui.addColor(c, 'color');		 	
 		 	cubeGui.open();
 
 		 	var threejsUI = gui.addFolder('Three.js Cube');
