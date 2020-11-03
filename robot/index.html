@@ -81,10 +81,6 @@
 
           'Kick' : function(){
             r.kick();
-          },
-
-          'Dance' : function(){
-            r.dance();
           }
 
         }
@@ -104,7 +100,6 @@
         animation.add(controller,'Raise Left Arm');
         animation.add(controller, 'Lower Left Arm');
         animation.add(controller, 'Kick');
-        animation.add(controller, 'Dance');
         animation.open();
         
         controls = new THREE.TrackballControls( camera, renderer.domElement );       
