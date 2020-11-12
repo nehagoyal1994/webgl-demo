@@ -56,45 +56,12 @@
         scene.add( light );
 
 
-        // var floorTexture = new THREE.TextureLoader().load( 'board.jpg' );
         var floorGeometry = new THREE.PlaneBufferGeometry( 1000, 1000 );
-        // var floorMaterial = new THREE.MeshBasicMaterial( {
-        //   map: floorTexture,
-        //   side: THREE.DoubleSide
-        // } );
-        // floor = new THREE.Mesh( floorGeometry, floorMaterial );
-        // floor.position.y = -100;
-        // floor.rotateX(-30);
-        // scene.add( floor );
         
         robots = []
-        for (var i=0; i<6; i++) {
-          var robot_x = Math.random() * (200 + 100) - 100;
-          var robot_y = Math.random() * (80 - 50) + 50;
-          var robot_z = 2*(Math.random() * (200 - 100) + 100);
-
-          if(( robot_x < 140)  && (robot_x >120)) {
-            robot_x *=-.3;
-          }
-          else{
-            robot_x *= .5;
-          }
-          if(( robot_z < 80)  && (robot_x >70)) {
-            robot_z *=-.3;
-          }
-          else{
-            robot_z *= .5;
-          }   
-
-          robot_x += robot_x;
-          
-          robot_z +=robot_z;
-
-
-
-          r = new Robot(robot_x, robot_y, robot_z);
-          r.show(scene);
-          robots.push(r); 
+        r = new Robot(0, -30, 0);
+        r.show(scene);
+        robots.push(r); 
           
         }      
 
