@@ -55,15 +55,15 @@
         light.position.set( 10, 100, 10 );
         scene.add( light );
 
+        const video = document.getElementById( 'video' );
+        const texture = new THREE.VideoTexture( video );
 
-        var floorGeometry = new THREE.PlaneBufferGeometry( 1000, 1000 );
         
         robots = []
-        r = new Robot(0, -30, 0);
+        r = new Robot(0, 30, 0);
         r.show(scene);
         robots.push(r); 
-          
-              
+
 
 
         controller = {
@@ -99,17 +99,16 @@
              music.autoplay = true;
              music.load();
 
-             const video = document.getElementById( 'video' );
-             const texture = new THREE.VideoTexture( video );
-              
+             var floorGeometry = new THREE.PlaneBufferGeometry( 1000, 1000 );
              var newfloorMaterial = new THREE.MeshBasicMaterial( {
                 map: texture,
                 side: THREE.DoubleSide
-              } );
+                } );
              newfloor = new THREE.Mesh( floorGeometry, newfloorMaterial );
              newfloor.position.y = -100;
              newfloor.rotateX(-30);
              scene.add( newfloor );
+             
 
 
              video.autoplay = true;
@@ -147,6 +146,8 @@
 
       };
 
+      //works when dance is clicked
+
       window.onclick = function(e) {
 
           if (!e.shiftKey) {
@@ -164,7 +165,7 @@
 
           raycaster = new THREE.Raycaster();
           raycaster.setFromCamera(vp_coords_near, camera);
-          intersects = raycaster.intersectObject(floor);
+          intersects = raycaster.intersectObject(newfloor);
 
           if (intersects.length > 0) {
 
