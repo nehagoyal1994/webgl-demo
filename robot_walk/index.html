@@ -23,13 +23,16 @@
 
     <script src="robot.js" type="text/javascript"></script>
     <script src="helper.js" type="text/javascript"></script>
-    <script src="https://threejs.org/examples/jsm/loaders/OBJLoader.js" type="text/javascript"></script>
-    
+    <!-- <script src="https://threejs.org/examples/js/loaders/OBJLoader.js" type="text/javascript"></script>
+    <script src="https://threejs.org/examples/jsm/loaders/OBJLoader.js" type="text/javascript"></script> -->
+    <!-- <script src="https://threejs.org/examples/jsm/loaders/OBJLoader2.js" type="text/javascript"></script> -->
 
-    <script>
+
+    <script type="module">
+      import { OBJLoader2 } from "https://threejs.org/examples/jsm/loaders/OBJLoader2.js";
 
       var scene, camera, renderer, effect, ambientLight, light, controls;
-      var floor;
+      var floor, robots, r, controller;
 
       window.onload = function() {
 
@@ -77,33 +80,17 @@
 
         // } );
 
-        const loader = new OBJLoader();
+        let loader = new OBJLoader2();
 
-        // load a resource
-        loader.load(
-          // resource URL
-          'cube.obj',
-          // called when resource is loaded
-          function ( object ) {
+        // function called on successful load
+        function callbackOnLoad ( object3d ) {
+          object3d.position.y = -60;
+          object3d.position.x = 200;
+          scene.add( object3d );
+        }
 
-            object.position.y = -60;
-            object.position.x = 200;
-            scene.add( object );
-
-          },
-          // called when loading is in progresses
-          function ( xhr ) {
-
-            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-          },
-          // called when loading has errors
-          function ( error ) {
-
-            console.log( 'An error happened' );
-
-          }
-        );
+        // load a resource from provided URL synchronously
+        loader.load( 'cube.obj', callbackOnLoad, null, null, null );
         // loader.load(
         //   // resource URL
         //   'cube.obj',
