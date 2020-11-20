@@ -29,7 +29,7 @@
 
 
     <script type="module">
-      import { OBJLoader2 } from "https://threejs.org/examples/jsm/loaders/OBJLoader2.js";
+      import { OBJLoader } from "https://threejs.org/examples/jsm/loaders/OBJLoader.js";
 
       var scene, camera, renderer, effect, ambientLight, light, controls;
       var floor, robots, r, controller;
@@ -80,18 +80,46 @@
 
         // } );
 
-        let loader = new OBJLoader2();
 
-        // function called on successful load
-        function callbackOnLoad ( object3d ) {
-          object3d.position.y = -60;
-          object3d.position.x = 200;
-          scene.add( object3d );
-        }
+        const loader = new OBJLoader();
 
-        // load a resource from provided URL synchronously
-        loader.load( 'cube.obj', callbackOnLoad, null, null, null );
-        // loader.load(
+        // load a resource
+        loader.load(
+          // resource URL
+          'cube.obj',
+          // called when resource is loaded
+          function ( obj3d) {
+
+            obj3d.position(100,200,100);
+            scene.add( obj3d );
+
+          },
+          // called when loading is in progresses
+          function ( xhr ) {
+
+            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+          },
+          // called when loading has errors
+          function ( error ) {
+
+            console.log( 'An error happened' );
+
+          }
+        );
+
+        // let loader = new OBJLoader2();
+
+        // // function called on successful load
+        // function callbackOnLoad ( object3d ) {
+        //   object3d.position.y = -60;
+        //   object3d.position.x = 200;
+        //   scene.add( object3d );
+        // }
+
+        // // load a resource from provided URL synchronously
+        // loader.load( 'cube.obj', callbackOnLoad, null, null, null );
+        // // loader.load(
         //   // resource URL
         //   'cube.obj',
 
