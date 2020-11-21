@@ -222,31 +222,22 @@ Robot.prototype.walk2 = function() {
 
 Robot.prototype.onStep = function() {
 
-  // this.root.translateZ(10);
-  // if(this.root.position.z >500) {
-  //   this.root.rotateY(Math.PI);
-  // } else if(this.root.position.z <-80) {
-  //   this.root.rotateY(Math.PI);
-  // }
-  // for (var i in robots){
-  //   i = robots[i];
-  //   if (this != i){
-
-  //     if(this.root.position.distanceTo(i.root.position)<25)
-  //       this.root.rotateY(Math.PI/2);
-  //     else
-  //       this.root.translateZ(5);
-
-
-  //   }
-    
-
-    
-  //   }
+  
   this.root.translateZ(15);
   if (this.root.position.z >= 480 || this.root.position.z <= -480) {
      this.root.rotateY(Math.PI);
   }
+  if (this.root.position.x >= 380 || this.root.position.x <= -380) {
+     this.root.rotateY(Math.PI);
+  }
+
+  if (this.root.position.x > 130 && this.root.position.x < 280 && this.root.position.z > 130 && this.root.position.z < 300 ) {
+
+    this.root.rotateY(Math.PI);
+    this.root.translateZ(15);
+    
+  }
+
   for(var i in robots) {
     r = robots[i];
 
@@ -258,6 +249,7 @@ Robot.prototype.onStep = function() {
       this.root.translateZ(15);
     }
   }
+  
     
 };
 
