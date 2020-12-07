@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      html, body { 
+        background-color:rgb(249, 249, 249);
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden !important;  
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
+    </style>
+
+    <script type='module'>
+
+      import * as THREE from 'https://threejs.org/build/three.module.js';      
+      import { TrackballControls } from 'https://threejs.org/examples/jsm/controls/TrackballControls.js';      
+      import { GLTFLoader } from 'https://threejs.org/examples/jsm/loaders/GLTFLoader.js';
+
+      let scene, camera, renderer, effect, ambientLight, directionalLight, light, controls;
+
+      window.onload = function() {
+
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
+        camera.position.set( 0, 0, 100);
+        scene.add( camera );
+
+        renderer = new THREE.WebGLRenderer({alpha: true });
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+        
+        ambientLight = new THREE.AmbientLight(0xffffff, 5000);
+        scene.add( ambientLight );
+
+        directionalLight = new THREE.DirectionalLight( 0xffffff,0.5);
+        directionalLight.position.set( 10, 100, 10 );
+        scene.add( directionalLight );
+
+
+
+        const loader = new GLTFLoader();
+        loader.load('gltf_cube.gltf', function (gltf) {
+          gltf.scene.scale.set(20, 20, 20);
+          scene.add(gltf.scene);            
+        });
+
+        controls = new TrackballControls( camera, renderer.domElement );
+
+        animate();
+
+      };
+
+
+      function animate() {
+
+        requestAnimationFrame( animate );        
+        controls.update();
+        renderer.render( scene, camera );      
+
+      };
+
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
