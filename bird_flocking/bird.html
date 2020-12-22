@@ -1,0 +1,149 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      html, body { 
+        background-color:#000;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden !important;         
+      }
+    </style>
+
+    <script src="https://threejs.org/build/three.min.js" type="text/javascript"></script>
+    <script src="https://threejs.org/examples/js/controls/TrackballControls.js" type="text/javascript"></script>
+    <script src="https://threejs.org/examples/js/effects/StereoEffect.js" type="text/javascript"></script>
+    <script src="https://threejs.org/examples/js/libs/dat.gui.min.js" type="text/javascript"></script>
+   
+    <script src="bird_boid.js" type="text/javascript"></script>
+    <script src="block.js" type="text/javascript"></script>
+    
+    <script type="module">
+
+      import Stats from 'https://threejs.org/examples/jsm/libs/stats.module.js';
+      
+      var birds, bird, blocks, block;
+
+      var scene, camera, renderer, effect, ambientLight, light, controls;
+      var geometry, material, invisible_plane, stats;
+
+
+      window.onload = function() {
+
+
+        scene = new THREE.Scene();
+        //scene.background = new THREE.Color(0x87CEEB);
+
+        var fov = 60;
+        var ratio = window.innerWidth / window.innerHeight;
+        var zNear = 1;
+        var zFar = 10000;
+        camera = new THREE.PerspectiveCamera(fov, ratio, zNear, zFar);
+        camera.position.set( 0, 0, 500);
+
+        renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+        
+        effect = new THREE.StereoEffect( renderer );
+        effect.setSize( window.innerWidth, window.innerHeight );
+
+        ambientLight = new THREE.AmbientLight();
+        scene.add( ambientLight );
+
+        light = new THREE.DirectionalLight( 0xffffff, 5.0 );
+        light.position.set( 10, 100, 10 );
+        scene.add( light );
+
+        // setup invisible plane
+        geometry =  new THREE.PlaneBufferGeometry( 10000, 10000);
+        material = new THREE.MeshBasicMaterial ({ visible: false
+        });
+        invisible_plane = new THREE.Mesh(geometry, material);
+        scene.add(invisible_plane);
+
+        blocks = [];
+
+        //on click blocks will be created such that boids will avoid these blocks while continue to follow the boids rules
+
+        renderer.domElement.onclick = function( e ) {
+
+
+          if (!e.shiftKey) {
+
+            e.preventDefault();
+            return false;
+          }
+            
+           
+          pixel_coords = new THREE.Vector2( e.clientX, e.clientY );    //screen space
+
+          vp_coords = new THREE.Vector2( ( pixel_coords.x / window.innerWidth ) * 2 - 1,      //x
+                                        -( pixel_coords.y / window.innerHeight ) * 2 + 1);    //y
+
+          vp_coords_near = new THREE.Vector3( vp_coords.x, vp_coords.y, 0);    //for zNear
+
+          raycaster = new THREE.Raycaster();
+          raycaster.setFromCamera(vp_coords_near, camera);
+          intersects = raycaster.intersectObject(invisible_plane);
+          
+          if (intersects.length > 0) {
+
+            var new_x = intersects[0].point.x;
+            var new_y = intersects[0].point.y;
+            var new_z = intersects[0].point.z;
+
+            block = new Block(new_x, new_y, new_z);
+            block.show(scene);
+            blocks.push(block);          
+
+          }
+        };       
+
+        // create boids set random position and velocity
+        birds = [];
+        for (var i = 0; i < 500; i++) {
+          birds[i] = bird = new Bird();
+          bird.mesh.position.x = Math.random() * 400 - 200;
+          bird.mesh.position.y = Math.random() * 400 - 200;
+          bird.mesh.position.z = Math.random() * 400 - 200;
+          bird.velocity.x = Math.random() * 2 - 1;
+          bird.velocity.y = Math.random() * 2 - 1;
+          bird.velocity.z = Math.random() * 2 - 1;
+          scene.add(bird.mesh);
+          birds.push(bird);
+        }
+
+        // performance monitor
+        stats = new Stats();
+        document.body.appendChild( stats.domElement);
+
+        //
+
+
+        controls = new THREE.TrackballControls( camera, renderer.domElement );
+        animate();
+      };        
+
+
+
+      
+      function animate() {
+
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+        for (var i = 0; i < birds.length; i++){
+
+          birds[i].moveBird(birds, blocks);
+        }
+        controls.update();
+        stats.update();
+ 
+      };
+
+    </script>
+  </head>
+  <body>    
+  </body>
+</html>
