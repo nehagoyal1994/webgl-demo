@@ -10,6 +10,9 @@
         overflow: hidden !important;         
       }
     </style>
+    <div id="info">Bird Flocking Simulation<br/>
+      Shift + mouseClick will create blocks in 3D space <br/>
+    </div>
 
     <script src="https://threejs.org/build/three.min.js" type="text/javascript"></script>
     <script src="https://threejs.org/examples/js/controls/TrackballControls.js" type="text/javascript"></script>
@@ -26,7 +29,7 @@
       var birds, bird, blocks, block;
 
       var scene, camera, renderer, effect, ambientLight, light, controls;
-      var geometry, material, invisible_plane, stats;
+      var geometry, material, invisible_plane, stats, pixel_coords, vp_coords, vp_coords_near, raycaster, intersects;
 
 
       window.onload = function() {
@@ -77,7 +80,7 @@
           }
             
            
-          pixel_coords = new THREE.Vector2( e.clientX, e.clientY );    //screen space
+          pixel_coords = new THREE.Vector2( e.clientX, e.clientY);    //screen space
 
           vp_coords = new THREE.Vector2( ( pixel_coords.x / window.innerWidth ) * 2 - 1,      //x
                                         -( pixel_coords.y / window.innerHeight ) * 2 + 1);    //y

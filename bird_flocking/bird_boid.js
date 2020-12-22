@@ -143,6 +143,7 @@ var Bird = function () {
   }
 
   
+  //credit to Charles Bandes ...  http://charlesbandes.com/birds/
   // avoid hinderence
   this.avoidBlocks = function( blocks ){
     var steering = new THREE.Vector3();
@@ -152,13 +153,13 @@ var Bird = function () {
       xzBlock = new THREE.Vector2( blocks[i].mesh.position.x, blocks[i].mesh.position.z );
       distance = xzBlock.distanceTo( xzBird ); 
 
-      if ( (distance > 0) && ( distance < 50 ) ) {
+      if ( (distance > 0) && ( distance < 100 ) ) {
 
-        var diff = new THREE.Vector2();
+        var diff = new THREE.Vector3();
         diff.subVectors(xzBird, xzBlock);
         diff.divideScalar(distance);
         diff.normalize();
-        var p = new THREE.Vector3( diff.x, 0, diff.y );
+        var p = new THREE.Vector3( diff.x, diff.y, 0 );
         steering = steering.add(p);
 
       }
