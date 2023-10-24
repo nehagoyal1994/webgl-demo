@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 var Bird = function () {
   var height = 400, width = 400, depth = 400, maxSpeed = 3;
   var xMin = -width, yMin = -height, zMin = -depth, xMax = width, yMax = height, zMax = depth;
@@ -150,8 +151,8 @@ var Bird = function () {
     var xzBird = new THREE.Vector2( this.mesh.position.x, this.mesh.position.z );
     for (var i = 0, il = blocks.length; i < il; i++) {
 
-      xzBlock = new THREE.Vector2( blocks[i].mesh.position.x, blocks[i].mesh.position.z );
-      distance = xzBlock.distanceTo( xzBird ); 
+      let xzBlock = new THREE.Vector2( blocks[i].mesh.position.x, blocks[i].mesh.position.z );
+      let distance = xzBlock.distanceTo( xzBird ); 
 
       if ( (distance > 0) && ( distance < 100 ) ) {
 
@@ -188,6 +189,6 @@ var Bird = function () {
 
 };
 
-
+export default Bird;
 
 
